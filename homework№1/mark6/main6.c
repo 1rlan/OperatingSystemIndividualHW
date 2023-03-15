@@ -4,12 +4,6 @@
 #include <unistd.h>
 #include "../algo.h"
 
-#define BUFFER_SIZE 5000
-
-#define NUMBER_OF_FILES 2 + 1
-#define FORK_ERROR -1
-#define FORK_SUCCESS 0
-
 
 int main(int argc, char **argv) {
     if (argc != NUMBER_OF_FILES) {                                              // Проверка на валидное кол-во
@@ -26,12 +20,12 @@ int main(int argc, char **argv) {
         exit_error("Unable to create the first clide. \n");
     } else if (chpid1 == FORK_SUCCESS) {                            // READING
         int file = open(argv[1], O_RDONLY);                                     // Открытие файла
-        char str[BUFFER_SIZE + 1];
+        char str[BUFFER_SIZE + 8];
         ssize_t read_bytes = read(file, str, BUFFER_SIZE);                      // Чтение строки
         str[read_bytes] = '\0';
         
         close(fd2[0]);
-        write(fd2[1], str, read_bytes + 1);                                     // Передача в канал
+        write(fd2[1], str, sizeof(str));                                        // Передача в канал
         close(file);
         
         
