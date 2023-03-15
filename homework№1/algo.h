@@ -1,3 +1,9 @@
+#define BUFFER_SIZE 5000
+
+#define NUMBER_OF_FILES 2 + 1
+#define FORK_ERROR -1
+#define FORK_SUCCESS 0
+
 //
 // Основной алгоритм решение задачи описан в корневом markdown:
 // homework1/report.md

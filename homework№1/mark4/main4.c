@@ -4,12 +4,6 @@
 #include <unistd.h>
 #include "../algo.h"
 
-#define BUFFER_SIZE 5000
-
-#define NUMBER_OF_FILES 2 + 1
-#define FORK_ERROR -1
-#define FORK_SUCCESS 0
-
 
 int main(int argc, char **argv) {
     if (argc != NUMBER_OF_FILES) {                                                  // Проверка на валидное кол-во
@@ -34,13 +28,13 @@ int main(int argc, char **argv) {
             str[read_bytes] = '\0';
 
             close(fd2[0]);
-            write(fd2[1], str, read_bytes + 1);                                     // Передача в канал
+            write(fd2[1], str, sizeof(str));                                        // Передача в канал
             close(file);                                                            // Закрытие файла
         } else {                                                           // STRINGS ACTION
             close(fd2[1]);
             
-            char str[BUFFER_SIZE + 1];                                              // Входная
-            int len = read(fd2[0], str, BUFFER_SIZE);                               // Чтение входной строки из канала
+            char str[BUFFER_SIZE + 8];                                              // Входная строка
+            read(fd2[0], str, BUFFER_SIZE);                                         // Чтение входной строки из канала
             char ans1[256] = {0}, ans2[256] = {0};                                  // Потенциальные строки разности
             subtracting(str, ans1, ans2);                                           // Поиск разности
 
