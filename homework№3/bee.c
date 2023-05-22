@@ -57,11 +57,11 @@ int main(int argc, char *argv[]) {
     unsigned short echoServPort;
     char *servIP;
 
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <Server IP> <Echo Port>\n", argv[0]);
+    if (argc != 4) {
+        fprintf(stderr, "Usage: %s <Server IP> <Port> <N>\n", argv[0]);
         exit(1);
     }
-
+    int N_BEES = atoi(argv[3]);
     servIP = argv[1];
     echoServPort = atoi(argv[2]);
 

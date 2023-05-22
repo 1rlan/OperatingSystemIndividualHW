@@ -1,5 +1,8 @@
-#define DATA "/data"
-#define SEMAPHORE "/semaphore"
+#define HIVE "/data"
+#define BUFFER "/buffer"
+#define POINTER "/pointer"
+#define SEM_HIVE "/semaphore_hive"
+#define SEM_BUFF "/semaphore_buff"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,9 +12,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define N_BEES 20
 #define MAXPENDING 5
-
+#define BUFF_LEN 10000
 void (*prev_server)(int);
 void (*prev_bee)(int);
 

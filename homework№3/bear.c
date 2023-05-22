@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     int bytesRcvd, totalBytesRcvd;
 
     if (argc != 3) {
-        fprintf(stderr, "Usage: %s <Server IP> <Echo Port>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <Server IP> <Port>\n", argv[0]);
         exit(1);
     }
 

@@ -14,10 +14,10 @@ void clean() {
     // Удаление семафора
     close(shm_fd);
     sem_close(sem_hive);
-    sem_unlink(SEMAPHORE);
+    sem_unlink(SEM_HIVE);
     // Удаление разделенной памяти
     munmap(shared_hive, sizeof(hive));
-    shm_unlink(DATA);
+    shm_unlink(HIVE);
     close(servSock);
 }
 
@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
     srand(time(NULL));
 
     // Открываем разделяему память
-    if ((shm_fd = shm_open(DATA, O_CREAT | O_RDWR, 0666)) == -1) {
+    if ((shm_fd = shm_open(HIVE, O_CREAT | O_RDWR, 0666)) == -1) {
         exit_error("Smth wrong with shm_open call \n");
     }
 
@@ -167,11 +167,17 @@ int main(int argc, char *argv[]) {
     }
 
     // Создание семафора
-    if ((sem_hive = sem_open(SEMAPHORE, O_CREAT, 0666, 1)) == SEM_FAILED) {
+    if ((sem_hive = sem_open(SEM_HIVE, O_CREAT, 0666, 1)) == SEM_FAILED) {
         exit_error("Smth wrong with sem_open call \n");
     }
 
+    if (argc != 3) {
+        fprintf(stderr, "Usage:  %s <SERVER PORT> <N>\n", argv[0]);
+        exit(1);
+    }
+
     // Запись значений в улей
+    int N_BEES = atoi(argv[2]);
     shared_hive->bee_in = N_BEES;
     shared_hive->honey = 0;
     sem_post(sem_hive);
@@ -179,10 +185,7 @@ int main(int argc, char *argv[]) {
     pid_t processID;
     unsigned int processCt;
 
-    if (argc != 2) {
-        fprintf(stderr, "Usage:  %s <SERVER PORT>\n", argv[0]);
-        exit(1);
-    }
+
 
     echoServPort = atoi(argv[1]);
 
